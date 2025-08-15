@@ -33,11 +33,20 @@ This guide will help you deploy your Custom Form Builder application on **Render
 ### Step 3: Configure Environment Variables
 Add these environment variables in Render:
 
+**⚠️ Security Note**: Never commit real credentials to your repository. Use environment variables in your deployment platform.
+
 ```env
 NODE_ENV=production
 PORT=10000
-MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/form-builder?retryWrites=true&w=majority
+MONGODB_URI=mongodb+srv://your_username:your_password@your_cluster.mongodb.net/form-builder?retryWrites=true&w=majority
 ```
+
+**To get your MongoDB Atlas connection string:**
+1. Go to MongoDB Atlas Dashboard
+2. Click "Connect" on your cluster
+3. Choose "Connect your application"
+4. Copy the connection string
+5. Replace `your_username`, `your_password`, and `your_cluster` with your actual values
 
 ### Step 4: Deploy
 - Click **Create Web Service**
@@ -138,6 +147,28 @@ Should return:
 2. Create a new form
 3. Test all features
 4. Check if images upload correctly
+
+---
+
+## 🔒 Security Best Practices
+
+### Environment Variables
+- ✅ **Never commit real credentials** to your repository
+- ✅ **Use environment variables** in your deployment platform
+- ✅ **Rotate credentials** regularly
+- ✅ **Use strong passwords** for database access
+
+### MongoDB Atlas Security
+- ✅ **Enable IP whitelist** or use VPC peering
+- ✅ **Use database users** with minimal required permissions
+- ✅ **Enable audit logging** for production databases
+- ✅ **Regular security updates** and monitoring
+
+### Application Security
+- ✅ **Validate all inputs** on both frontend and backend
+- ✅ **Use HTTPS** in production
+- ✅ **Implement rate limiting** for API endpoints
+- ✅ **Regular security audits** of dependencies
 
 ---
 

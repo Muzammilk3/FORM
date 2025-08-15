@@ -12,7 +12,7 @@ const PORT = process.env.PORT || 5000;
 const corsOptions = {
   origin: process.env.NODE_ENV === 'production' 
     ? [
-        'https://your-frontend-domain.vercel.app', // Replace with your Vercel domain
+        'https://your-frontend-app-name.vercel.app', // Replace with your actual Vercel domain
         'https://your-custom-domain.com' // Replace with your custom domain if any
       ]
     : ['http://localhost:3000', 'http://127.0.0.1:3000'],
