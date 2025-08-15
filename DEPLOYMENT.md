@@ -33,12 +33,12 @@ This guide will help you deploy your Custom Form Builder application on **Render
 ### Step 3: Configure Environment Variables
 Add these environment variables in Render:
 
-**⚠️ Security Note**: Never commit real credentials to your repository. Use environment variables in your deployment platform. This repository uses only placeholder values for documentation purposes.
+**⚠️ Security Note**: Never commit real credentials to your repository. Use environment variables in your deployment platform.
 
 ```env
 NODE_ENV=production
 PORT=10000
-MONGODB_URI=your_mongodb_connection_string_here
+MONGODB_URI=YOUR_MONGODB_CONNECTION_STRING_HERE
 ```
 
 **To get your MongoDB Atlas connection string:**
@@ -46,7 +46,7 @@ MONGODB_URI=your_mongodb_connection_string_here
 2. Click "Connect" on your cluster
 3. Choose "Connect your application"
 4. Copy the connection string
-5. Replace `your_mongodb_connection_string_here` with your actual MongoDB connection string
+5. Replace `YOUR_MONGODB_CONNECTION_STRING_HERE` with your actual MongoDB connection string
 
 ### Step 4: Deploy
 - Click **Create Web Service**
@@ -57,21 +57,7 @@ MONGODB_URI=your_mongodb_connection_string_here
 
 ## 🎨 Frontend Deployment on Vercel
 
-### Step 1: Prepare Frontend
-1. **Update CORS in backend** (server.js):
-   ```javascript
-   const corsOptions = {
-     origin: process.env.NODE_ENV === 'production' 
-       ? [
-           'https://your-frontend-domain.vercel.app', // Your Vercel domain
-           'https://your-custom-domain.com' // Custom domain if any
-         ]
-       : ['http://localhost:3000', 'http://127.0.0.1:3000'],
-     credentials: true
-   };
-   ```
-
-### Step 2: Deploy on Vercel
+### Step 1: Deploy on Vercel
 1. **Sign up/Login** to [vercel.com](https://vercel.com)
 2. **Import your GitHub repository**
 3. **Configure project**:
@@ -80,14 +66,14 @@ MONGODB_URI=your_mongodb_connection_string_here
    - **Build Command**: `npm run build`
    - **Output Directory**: `build`
 
-### Step 3: Configure Environment Variables
+### Step 2: Configure Environment Variables
 Add these environment variables in Vercel:
 
 ```env
 REACT_APP_API_URL=https://your-backend-domain.onrender.com
 ```
 
-### Step 4: Deploy
+### Step 3: Deploy
 - Click **Deploy**
 - Wait for deployment to complete
 - Note your frontend URL: `https://your-app-name.vercel.app`
@@ -103,7 +89,7 @@ const corsOptions = {
   origin: process.env.NODE_ENV === 'production' 
     ? [
         'https://your-app-name.vercel.app', // Replace with your actual Vercel domain
-        'https://your-custom-domain.com' // Add custom domain if you have one
+        'https://your-custom-domain.com' // Add custom domain if any
       ]
     : ['http://localhost:3000', 'http://127.0.0.1:3000'],
   credentials: true
@@ -111,21 +97,6 @@ const corsOptions = {
 ```
 
 Then redeploy your backend on Render.
-
----
-
-## 🌐 Custom Domain (Optional)
-
-### Backend Custom Domain
-1. In Render, go to your service settings
-2. Add your custom domain
-3. Update DNS records as instructed
-
-### Frontend Custom Domain
-1. In Vercel, go to your project settings
-2. Add your custom domain
-3. Update DNS records as instructed
-4. Update CORS configuration with your custom domain
 
 ---
 
@@ -155,22 +126,13 @@ Should return:
 ### Environment Variables
 - ✅ **Never commit real credentials** to your repository
 - ✅ **Use environment variables** in your deployment platform
-- ✅ **Rotate credentials** regularly
-- ✅ **Use strong passwords** for database access
-- ✅ **Use placeholder values** in documentation (like `your_mongodb_connection_string_here`)
+- ✅ **Use placeholder values** in documentation (like `YOUR_MONGODB_CONNECTION_STRING_HERE`)
 - ✅ **Enable secret scanning** in GitHub repository settings
 
 ### MongoDB Atlas Security
 - ✅ **Enable IP whitelist** or use VPC peering
 - ✅ **Use database users** with minimal required permissions
 - ✅ **Enable audit logging** for production databases
-- ✅ **Regular security updates** and monitoring
-
-### Application Security
-- ✅ **Validate all inputs** on both frontend and backend
-- ✅ **Use HTTPS** in production
-- ✅ **Implement rate limiting** for API endpoints
-- ✅ **Regular security audits** of dependencies
 
 ---
 
@@ -194,69 +156,10 @@ If you see a "MongoDB Atlas Database URI with credentials" alert:
 - Check if your IP is whitelisted
 - Ensure network access is configured correctly
 
-#### 3. Image Upload Issues
-- Check if the `uploads` directory exists
-- Verify file permissions
-- Check Render's file system limitations
-
-#### 4. Build Failures
+#### 3. Build Failures
 - Check if all dependencies are in `package.json`
 - Verify Node.js version compatibility
 - Check build logs for specific errors
-
-### Debug Commands:
-```bash
-# Check backend logs
-# In Render dashboard → Logs
-
-# Check frontend build logs
-# In Vercel dashboard → Deployments → View Build Logs
-```
-
----
-
-## 📊 Monitoring
-
-### Render Monitoring
-- **Logs**: Available in Render dashboard
-- **Metrics**: CPU, Memory, Response times
-- **Health Checks**: Automatic monitoring
-
-### Vercel Monitoring
-- **Analytics**: Page views, performance
-- **Functions**: Serverless function logs
-- **Real-time**: Live deployment status
-
----
-
-## 🔄 Continuous Deployment
-
-Both Render and Vercel support automatic deployments:
-- **Render**: Deploys on every push to `main` branch
-- **Vercel**: Deploys on every push to `main` branch
-
-### Manual Deployment
-If you need to manually trigger deployments:
-- **Render**: Dashboard → Manual Deploy
-- **Vercel**: Dashboard → Redeploy
-
----
-
-## 💰 Cost Considerations
-
-### Render (Backend)
-- **Free Tier**: 750 hours/month
-- **Paid Plans**: Starting from $7/month
-- **Custom Domains**: Free
-
-### Vercel (Frontend)
-- **Free Tier**: Unlimited deployments
-- **Paid Plans**: Starting from $20/month
-- **Custom Domains**: Free
-
-### MongoDB Atlas
-- **Free Tier**: 512MB storage
-- **Paid Plans**: Starting from $9/month
 
 ---
 
