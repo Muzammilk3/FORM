@@ -157,7 +157,7 @@ const FormPreview = () => {
           />
         )}
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
           <div>
             <h4 className="font-medium text-gray-700 mb-3">Items to categorize:</h4>
             <div className="space-y-2 min-h-[200px] p-3 border-2 border-dashed border-gray-300 rounded-lg">
@@ -371,18 +371,18 @@ const FormPreview = () => {
   }
 
   return (
-    <div className="max-w-4xl mx-auto space-y-6">
-      <div className="flex items-center space-x-4">
+    <div className="max-w-4xl mx-auto space-y-4 sm:space-y-6 px-4 sm:px-0">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center space-y-2 sm:space-y-0 sm:space-x-4">
         <button
           onClick={() => navigate('/')}
-          className="text-gray-600 hover:text-gray-900 p-2 rounded-lg hover:bg-gray-100 transition-colors"
+          className="text-gray-600 hover:text-gray-900 p-2 rounded-lg hover:bg-gray-100 transition-colors self-start"
         >
-          <ArrowLeft size={20} />
+          <ArrowLeft size={18} className="sm:w-5 sm:h-5" />
         </button>
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">{form.title}</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">{form.title}</h1>
           {form.description && (
-            <p className="text-gray-600 mt-2">{form.description}</p>
+            <p className="text-gray-600 mt-2 text-sm sm:text-base">{form.description}</p>
           )}
         </div>
       </div>
@@ -397,21 +397,21 @@ const FormPreview = () => {
         </div>
       )}
 
-      <div className="space-y-8">
+      <div className="space-y-6 sm:space-y-8">
         {form.questions.map((question, index) => (
-          <div key={index} className="bg-white rounded-lg shadow-sm border p-6">
+          <div key={index} className="bg-white rounded-lg shadow-sm border p-4 sm:p-6">
             {renderQuestion(question, index)}
           </div>
         ))}
       </div>
 
-      <div className="bg-white rounded-lg shadow-sm border p-6">
+      <div className="bg-white rounded-lg shadow-sm border p-4 sm:p-6">
         <button
           onClick={handleSubmit}
           disabled={submitting}
-          className="w-full bg-primary-600 hover:bg-primary-700 text-white py-3 px-6 rounded-lg font-medium flex items-center justify-center space-x-2 transition-colors disabled:opacity-50"
+          className="w-full bg-primary-600 hover:bg-primary-700 text-white py-3 px-4 sm:px-6 rounded-lg font-medium flex items-center justify-center space-x-2 transition-colors disabled:opacity-50 text-sm sm:text-base"
         >
-          <Send size={20} />
+          <Send size={18} className="sm:w-5 sm:h-5" />
           <span>{submitting ? 'Submitting...' : 'Submit Form'}</span>
         </button>
       </div>

@@ -140,10 +140,10 @@ const FormBuilder = () => {
   }
 
   return (
-    <div className="max-w-4xl mx-auto space-y-6">
-      <div className="flex justify-between items-center">
+    <div className="max-w-4xl mx-auto space-y-4 sm:space-y-6 px-4 sm:px-0">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">
             {id ? 'Edit Form' : 'Create New Form'}
           </h1>
           <p className="text-gray-600 mt-2">
@@ -161,7 +161,7 @@ const FormBuilder = () => {
             </div>
           )}
         </div>
-        <div className="flex space-x-3">
+        <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3 w-full sm:w-auto">
           <button
             onClick={() => navigate(`/preview/${id}`)}
             disabled={!id}
@@ -207,8 +207,8 @@ const FormBuilder = () => {
         </div>
       </div>
 
-      <div className="bg-white rounded-lg shadow-sm border p-6">
-        <h2 className="text-xl font-semibold text-gray-900 mb-4">Form Information</h2>
+      <div className="bg-white rounded-lg shadow-sm border p-4 sm:p-6">
+        <h2 className="text-lg sm:text-xl font-semibold text-gray-900 mb-4">Form Information</h2>
         
         <div className="space-y-4">
           <div>
@@ -244,30 +244,33 @@ const FormBuilder = () => {
         </div>
       </div>
 
-      <div className="bg-white rounded-lg shadow-sm border p-6">
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-xl font-semibold text-gray-900">Questions</h2>
-          <div className="flex space-x-2">
+      <div className="bg-white rounded-lg shadow-sm border p-4 sm:p-6">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
+          <h2 className="text-lg sm:text-xl font-semibold text-gray-900">Questions</h2>
+          <div className="flex flex-wrap gap-2">
             <button
               onClick={() => addQuestion('categorize')}
-              className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors"
+              className="bg-green-600 hover:bg-green-700 text-white px-3 sm:px-4 py-2 rounded-md text-xs sm:text-sm font-medium transition-colors"
             >
-              <Plus size={16} className="inline mr-1" />
-              Categorize
+              <Plus size={14} className="inline mr-1 sm:w-4 sm:h-4" />
+              <span className="hidden sm:inline">Categorize</span>
+              <span className="sm:hidden">Cat</span>
             </button>
             <button
               onClick={() => addQuestion('cloze')}
-              className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors"
+              className="bg-blue-600 hover:bg-blue-700 text-white px-3 sm:px-4 py-2 rounded-md text-xs sm:text-sm font-medium transition-colors"
             >
-              <Plus size={16} className="inline mr-1" />
-              Cloze
+              <Plus size={14} className="inline mr-1 sm:w-4 sm:h-4" />
+              <span className="hidden sm:inline">Cloze</span>
+              <span className="sm:hidden">Cloze</span>
             </button>
             <button
               onClick={() => addQuestion('comprehension')}
-              className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors"
+              className="bg-purple-600 hover:bg-purple-700 text-white px-3 sm:px-4 py-2 rounded-md text-xs sm:text-sm font-medium transition-colors"
             >
-              <Plus size={16} className="inline mr-1" />
-              Comprehension
+              <Plus size={14} className="inline mr-1 sm:w-4 sm:h-4" />
+              <span className="hidden sm:inline">Comprehension</span>
+              <span className="sm:hidden">Comp</span>
             </button>
           </div>
         </div>
@@ -279,22 +282,22 @@ const FormBuilder = () => {
             </div>
             <h3 className="text-lg font-medium text-gray-900 mb-2">No questions yet</h3>
             <p className="text-gray-600 mb-6">Add your first question to get started</p>
-            <div className="flex justify-center space-x-3">
+            <div className="flex flex-col sm:flex-row justify-center gap-2 sm:gap-3">
               <button
                 onClick={() => addQuestion('categorize')}
-                className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors"
+                className="bg-green-600 hover:bg-green-700 text-white px-3 sm:px-4 py-2 rounded-md text-xs sm:text-sm font-medium transition-colors"
               >
                 Add Categorize Question
               </button>
               <button
                 onClick={() => addQuestion('cloze')}
-                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors"
+                className="bg-blue-600 hover:bg-blue-700 text-white px-3 sm:px-4 py-2 rounded-md text-xs sm:text-sm font-medium transition-colors"
               >
                 Add Cloze Question
               </button>
               <button
                 onClick={() => addQuestion('comprehension')}
-                className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors"
+                className="bg-purple-600 hover:bg-purple-700 text-white px-3 sm:px-4 py-2 rounded-md text-xs sm:text-sm font-medium transition-colors"
               >
                 Add Comprehension Question
               </button>
@@ -303,26 +306,30 @@ const FormBuilder = () => {
         ) : (
           <div className="space-y-6">
             {form.questions.map((question, index) => (
-              <div key={index} className="border border-gray-200 rounded-lg p-4">
-                <div className="flex justify-between items-start mb-4">
-                  <div className="flex items-center space-x-3">
-                    <span className="px-3 py-1 bg-gray-100 text-gray-700 text-sm font-medium rounded-full">
+              <div key={index} className="border border-gray-200 rounded-lg p-3 sm:p-4">
+                <div className="flex flex-col sm:flex-row justify-between items-start mb-4 gap-2">
+                  <div className="flex items-center space-x-2 sm:space-x-3">
+                    <span className="px-2 sm:px-3 py-1 bg-gray-100 text-gray-700 text-xs sm:text-sm font-medium rounded-full">
                       {index + 1}
                     </span>
-                    <span className={`px-3 py-1 text-sm font-medium rounded-full ${
+                    <span className={`px-2 sm:px-3 py-1 text-xs sm:text-sm font-medium rounded-full ${
                       question.type === 'categorize' ? 'bg-green-100 text-green-800' :
                       question.type === 'cloze' ? 'bg-blue-100 text-blue-800' :
                       'bg-purple-100 text-purple-800'
                     }`}>
-                      {question.type}
+                      <span className="hidden sm:inline">{question.type}</span>
+                      <span className="sm:hidden">
+                        {question.type === 'categorize' ? 'Cat' :
+                         question.type === 'cloze' ? 'Cloze' : 'Comp'}
+                      </span>
                     </span>
                   </div>
-                  <div className="flex space-x-2">
+                  <div className="flex space-x-2 self-start">
                     <button
                       onClick={() => deleteQuestion(index)}
                       className="text-red-600 hover:text-red-800 p-1"
                     >
-                      <Trash2 size={16} />
+                      <Trash2 size={14} className="sm:w-4 sm:h-4" />
                     </button>
                   </div>
                 </div>

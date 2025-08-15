@@ -79,16 +79,16 @@ const Dashboard = () => {
 
   return (
     <div className="space-y-6">
-      <div className="flex justify-between items-center">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Dashboard</h1>
           <p className="text-gray-600 mt-2">Manage your forms and view responses</p>
         </div>
         <Link
           to="/builder"
-          className="bg-primary-600 hover:bg-primary-700 text-white px-6 py-3 rounded-lg font-medium flex items-center space-x-2 transition-colors"
+          className="bg-primary-600 hover:bg-primary-700 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-medium flex items-center space-x-2 transition-colors text-sm sm:text-base w-full sm:w-auto justify-center"
         >
-          <Plus size={20} />
+          <Plus size={18} className="sm:w-5 sm:h-5" />
           <span>Create New Form</span>
         </Link>
       </div>
@@ -120,22 +120,22 @@ const Dashboard = () => {
           </Link>
         </div>
       ) : !error && (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           {forms.map((form) => (
-            <div key={form._id} className="bg-white rounded-lg shadow-sm border p-6 hover:shadow-md transition-shadow">
-              <div className="flex justify-between items-start mb-4">
-                <div className="flex-1">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2">{form.title}</h3>
+            <div key={form._id} className="bg-white rounded-lg shadow-sm border p-4 sm:p-6 hover:shadow-md transition-shadow">
+              <div className="flex flex-col sm:flex-row justify-between items-start mb-4 gap-2">
+                <div className="flex-1 min-w-0">
+                  <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-2 truncate">{form.title}</h3>
                   {form.description && (
-                    <p className="text-gray-600 text-sm mb-3">{form.description}</p>
+                    <p className="text-gray-600 text-sm mb-3 line-clamp-2">{form.description}</p>
                   )}
-                  <div className="flex items-center space-x-2 text-sm text-gray-500">
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-2 text-sm text-gray-500 gap-1">
                     <span>{form.questions.length} questions</span>
-                    <span>•</span>
+                    <span className="hidden sm:inline">•</span>
                     <span>{new Date(form.createdAt).toLocaleDateString()}</span>
                   </div>
                 </div>
-                <div className="flex items-center space-x-1">
+                <div className="flex items-center space-x-1 self-start">
                   <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
                     form.isPublished
                       ? 'bg-green-100 text-green-800'
@@ -146,51 +146,52 @@ const Dashboard = () => {
                 </div>
               </div>
 
-              <div className="flex flex-wrap gap-2">
+              <div className="flex flex-wrap gap-1 sm:gap-2">
                 <Link
                   to={`/builder/${form._id}`}
-                  className="flex items-center space-x-1 text-blue-600 hover:text-blue-700 text-sm font-medium"
+                  className="flex items-center space-x-1 text-blue-600 hover:text-blue-700 text-xs sm:text-sm font-medium px-2 py-1 rounded hover:bg-blue-50"
                 >
-                  <Edit size={14} />
-                  <span>Edit</span>
+                  <Edit size={12} className="sm:w-3.5 sm:h-3.5" />
+                  <span className="hidden sm:inline">Edit</span>
                 </Link>
                 <Link
                   to={`/preview/${form._id}`}
-                  className="flex items-center space-x-1 text-green-600 hover:text-green-700 text-sm font-medium"
+                  className="flex items-center space-x-1 text-green-600 hover:text-green-700 text-xs sm:text-sm font-medium px-2 py-1 rounded hover:bg-green-50"
                 >
-                  <Eye size={14} />
-                  <span>Preview</span>
+                  <Eye size={12} className="sm:w-3.5 sm:h-3.5" />
+                  <span className="hidden sm:inline">Preview</span>
                 </Link>
                 <Link
                   to={`/responses/${form._id}`}
-                  className="flex items-center space-x-1 text-purple-600 hover:text-purple-700 text-sm font-medium"
+                  className="flex items-center space-x-1 text-purple-600 hover:text-purple-700 text-xs sm:text-sm font-medium px-2 py-1 rounded hover:bg-purple-50"
                 >
-                  <BarChart3 size={14} />
-                  <span>Responses</span>
+                  <BarChart3 size={12} className="sm:w-3.5 sm:h-3.5" />
+                  <span className="hidden sm:inline">Responses</span>
                 </Link>
                 <button
                   onClick={() => copyPreviewLink(form._id)}
-                  className="flex items-center space-x-1 text-gray-600 hover:text-gray-700 text-sm font-medium"
+                  className="flex items-center space-x-1 text-gray-600 hover:text-gray-700 text-xs sm:text-sm font-medium px-2 py-1 rounded hover:bg-gray-50"
                 >
-                  <Copy size={14} />
-                  <span>Copy Link</span>
+                  <Copy size={12} className="sm:w-3.5 sm:h-3.5" />
+                  <span className="hidden sm:inline">Copy Link</span>
                 </button>
                 <button
                   onClick={() => togglePublish(form._id, form.isPublished)}
-                  className={`flex items-center space-x-1 text-sm font-medium ${
+                  className={`flex items-center space-x-1 text-xs sm:text-sm font-medium px-2 py-1 rounded ${
                     form.isPublished
-                      ? 'text-yellow-600 hover:text-yellow-700'
-                      : 'text-green-600 hover:text-green-700'
+                      ? 'text-yellow-600 hover:text-yellow-700 hover:bg-yellow-50'
+                      : 'text-green-600 hover:text-green-700 hover:bg-green-50'
                   }`}
                 >
-                  {form.isPublished ? 'Unpublish' : 'Publish'}
+                  <span className="hidden sm:inline">{form.isPublished ? 'Unpublish' : 'Publish'}</span>
+                  <span className="sm:hidden">{form.isPublished ? 'Unpub' : 'Pub'}</span>
                 </button>
                 <button
                   onClick={() => deleteForm(form._id)}
-                  className="flex items-center space-x-1 text-red-600 hover:text-red-700 text-sm font-medium"
+                  className="flex items-center space-x-1 text-red-600 hover:text-red-700 text-xs sm:text-sm font-medium px-2 py-1 rounded hover:bg-red-50"
                 >
-                  <Trash2 size={14} />
-                  <span>Delete</span>
+                  <Trash2 size={12} className="sm:w-3.5 sm:h-3.5" />
+                  <span className="hidden sm:inline">Delete</span>
                 </button>
               </div>
             </div>

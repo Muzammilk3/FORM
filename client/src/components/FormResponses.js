@@ -173,63 +173,63 @@ const FormResponses = () => {
   }
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
+    <div className="space-y-4 sm:space-y-6 px-4 sm:px-0">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div className="flex items-center space-x-4">
           <button
             onClick={() => navigate('/')}
             className="text-gray-600 hover:text-gray-900 p-2 rounded-lg hover:bg-gray-100 transition-colors"
           >
-            <ArrowLeft size={20} />
+            <ArrowLeft size={18} className="sm:w-5 sm:h-5" />
           </button>
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">{form.title}</h1>
-            <p className="text-gray-600 mt-1">Form Responses</p>
+            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">{form.title}</h1>
+            <p className="text-gray-600 mt-1 text-sm sm:text-base">Form Responses</p>
           </div>
         </div>
         <button
           onClick={exportResponses}
           disabled={responses.length === 0}
-          className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-medium flex items-center space-x-2 transition-colors disabled:opacity-50"
+          className="bg-green-600 hover:bg-green-700 text-white px-3 sm:px-4 py-2 rounded-lg font-medium flex items-center space-x-2 transition-colors disabled:opacity-50 text-sm sm:text-base w-full sm:w-auto justify-center"
         >
-          <Download size={16} />
+          <Download size={14} className="sm:w-4 sm:h-4" />
           <span>Export CSV</span>
         </button>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="bg-white rounded-lg shadow-sm border p-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+        <div className="bg-white rounded-lg shadow-sm border p-4 sm:p-6">
           <div className="flex items-center space-x-3">
-            <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-              <Users size={24} className="text-blue-600" />
+            <div className="w-10 h-10 sm:w-12 sm:h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+              <Users size={20} className="text-blue-600 sm:w-6 sm:h-6" />
             </div>
             <div>
-              <p className="text-sm text-gray-600">Total Responses</p>
-              <p className="text-2xl font-bold text-gray-900">{stats?.totalResponses || 0}</p>
+              <p className="text-xs sm:text-sm text-gray-600">Total Responses</p>
+              <p className="text-xl sm:text-2xl font-bold text-gray-900">{stats?.totalResponses || 0}</p>
             </div>
           </div>
         </div>
 
-        <div className="bg-white rounded-lg shadow-sm border p-6">
+        <div className="bg-white rounded-lg shadow-sm border p-4 sm:p-6">
           <div className="flex items-center space-x-3">
-            <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
-              <BarChart3 size={24} className="text-green-600" />
+            <div className="w-10 h-10 sm:w-12 sm:h-12 bg-green-100 rounded-lg flex items-center justify-center">
+              <BarChart3 size={20} className="text-green-600 sm:w-6 sm:h-6" />
             </div>
             <div>
-              <p className="text-sm text-gray-600">Questions</p>
-              <p className="text-2xl font-bold text-gray-900">{form.questions.length}</p>
+              <p className="text-xs sm:text-sm text-gray-600">Questions</p>
+              <p className="text-xl sm:text-2xl font-bold text-gray-900">{form.questions.length}</p>
             </div>
           </div>
         </div>
 
-        <div className="bg-white rounded-lg shadow-sm border p-6">
+        <div className="bg-white rounded-lg shadow-sm border p-4 sm:p-6">
           <div className="flex items-center space-x-3">
-            <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
-              <Calendar size={24} className="text-purple-600" />
+            <div className="w-10 h-10 sm:w-12 sm:h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+              <Calendar size={20} className="text-purple-600 sm:w-6 sm:h-6" />
             </div>
             <div>
-              <p className="text-sm text-gray-600">Created</p>
-              <p className="text-2xl font-bold text-gray-900">
+              <p className="text-xs sm:text-sm text-gray-600">Created</p>
+              <p className="text-xl sm:text-2xl font-bold text-gray-900">
                 {new Date(form.createdAt).toLocaleDateString()}
               </p>
             </div>
