@@ -38,7 +38,7 @@ Add these environment variables in Render:
 ```env
 NODE_ENV=production
 PORT=10000
-MONGODB_URI=mongodb+srv://your_username:your_password@your_cluster.mongodb.net/form-builder?retryWrites=true&w=majority
+MONGODB_URI=your_mongodb_connection_string_here
 ```
 
 **To get your MongoDB Atlas connection string:**
@@ -46,7 +46,7 @@ MONGODB_URI=mongodb+srv://your_username:your_password@your_cluster.mongodb.net/f
 2. Click "Connect" on your cluster
 3. Choose "Connect your application"
 4. Copy the connection string
-5. Replace `your_username`, `your_password`, and `your_cluster` with your actual values
+5. Replace `your_mongodb_connection_string_here` with your actual MongoDB connection string
 
 ### Step 4: Deploy
 - Click **Create Web Service**
@@ -157,6 +157,8 @@ Should return:
 - ✅ **Use environment variables** in your deployment platform
 - ✅ **Rotate credentials** regularly
 - ✅ **Use strong passwords** for database access
+- ✅ **Use placeholder values** in documentation (like `your_mongodb_connection_string_here`)
+- ✅ **Enable secret scanning** in GitHub repository settings
 
 ### MongoDB Atlas Security
 - ✅ **Enable IP whitelist** or use VPC peering
@@ -173,6 +175,13 @@ Should return:
 ---
 
 ## 🛠️ Troubleshooting
+
+### GitHub Security Alerts
+If you see a "MongoDB Atlas Database URI with credentials" alert:
+1. **Check if real credentials were committed** - Look for actual usernames/passwords
+2. **If only placeholders exist** - The alert is a false positive, you can safely close it
+3. **If real credentials were found** - Rotate your MongoDB password immediately
+4. **Close the alert** - Mark as "Closed as revoked" after fixing
 
 ### Common Issues:
 
