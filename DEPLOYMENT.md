@@ -33,7 +33,7 @@ This guide will help you deploy your Custom Form Builder application on **Render
 ### Step 3: Configure Environment Variables
 Add these environment variables in Render:
 
-**⚠️ Security Note**: Never commit real credentials to your repository. Use environment variables in your deployment platform.
+**⚠️ Security Note**: Never commit real credentials to your repository. Use environment variables in your deployment platform. This repository uses only placeholder values for documentation purposes.
 
 ```env
 NODE_ENV=production
