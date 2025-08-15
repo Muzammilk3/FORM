@@ -75,5 +75,3 @@ npm start
 - **Frontend:** React, Tailwind CSS, Axios
 - **Backend:** Node.js, Express, MongoDB
 - **Database:** MongoDB Atlas (Cloud)
-
-
