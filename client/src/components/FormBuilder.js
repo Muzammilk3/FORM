@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Save, Eye, Plus, Trash2, Image as ImageIcon, Upload } from 'lucide-react';
-import axios from 'axios';
+import api from '../config/axios';
 import toast from 'react-hot-toast';
 import QuestionEditor from './QuestionEditor';
 import HeaderImageUpload from './HeaderImageUpload';
@@ -28,7 +28,7 @@ const FormBuilder = () => {
   const fetchForm = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(`/api/forms/${id}`);
+      const response = await api.get(`/api/forms/${id}`);
       setForm(response.data);
     } catch (error) {
       toast.error('Failed to fetch form');
@@ -47,10 +47,10 @@ const FormBuilder = () => {
     try {
       setSaving(true);
       if (id) {
-        await axios.put(`/api/forms/${id}`, form);
+        await api.put(`/api/forms/${id}`, form);
         toast.success('Form updated successfully');
       } else {
-        const response = await axios.post('/api/forms', form);
+        const response = await api.post('/api/forms', form);
         toast.success('Form created successfully');
         navigate(`/builder/${response.data._id}`);
       }
@@ -186,7 +186,7 @@ const FormBuilder = () => {
             <button
               onClick={async () => {
                 try {
-                  await axios.patch(`/api/forms/${id}/publish`, { 
+                  await api.patch(`/api/forms/${id}/publish`, { 
                     isPublished: !form.isPublished 
                   });
                   setForm(prev => ({ ...prev, isPublished: !prev.isPublished }));

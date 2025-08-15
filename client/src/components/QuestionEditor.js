@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Plus, Trash2, Image as ImageIcon, Upload, X } from 'lucide-react';
-import axios from 'axios';
+import api from '../config/axios';
 import toast from 'react-hot-toast';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
@@ -19,7 +19,7 @@ const QuestionEditor = ({ question, index, onUpdate, onDelete }) => {
 
     try {
       setUploading(true);
-      const response = await axios.post('/api/upload', formData);
+      const response = await api.post('/api/upload', formData);
       updateQuestion({ image: response.data.imageUrl });
       toast.success('Image uploaded successfully');
     } catch (error) {

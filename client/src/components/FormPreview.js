@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Send, CheckCircle, XCircle } from 'lucide-react';
-import axios from 'axios';
+import api from '../config/axios';
 import toast from 'react-hot-toast';
 
 const FormPreview = () => {
@@ -20,7 +20,7 @@ const FormPreview = () => {
   const fetchForm = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(`/api/forms/${id}`);
+      const response = await api.get(`/api/forms/${id}`);
       setForm(response.data);
       
       const initialResponses = {};
@@ -127,7 +127,7 @@ const FormPreview = () => {
         }))
       };
 
-      await axios.post('/api/responses', responseData);
+      await api.post('/api/responses', responseData);
       toast.success('Form submitted successfully!');
       setSubmitted(true);
     } catch (error) {

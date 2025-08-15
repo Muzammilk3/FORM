@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Plus, Eye, BarChart3, Edit, Trash2, Copy, ExternalLink } from 'lucide-react';
-import axios from 'axios';
+import api from '../config/axios';
 import toast from 'react-hot-toast';
 
 const Dashboard = () => {
@@ -17,7 +17,7 @@ const Dashboard = () => {
     try {
       setLoading(true);
       setError(null);
-      const response = await axios.get('/api/forms');
+      const response = await api.get('/api/forms');
       setForms(response.data);
     } catch (error) {
       console.error('Error fetching forms:', error);
@@ -39,7 +39,7 @@ const Dashboard = () => {
   const deleteForm = async (id) => {
     if (window.confirm('Are you sure you want to delete this form?')) {
       try {
-        await axios.delete(`/api/forms/${id}`);
+        await api.delete(`/api/forms/${id}`);
         toast.success('Form deleted successfully');
         fetchForms();
       } catch (error) {
@@ -51,7 +51,7 @@ const Dashboard = () => {
 
   const togglePublish = async (id, currentStatus) => {
     try {
-      await axios.patch(`/api/forms/${id}/publish`, {
+      await api.patch(`/api/forms/${id}/publish`, {
         isPublished: !currentStatus
       });
       toast.success(`Form ${currentStatus ? 'unpublished' : 'published'} successfully`);

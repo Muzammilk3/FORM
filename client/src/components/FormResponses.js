@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Download, BarChart3, Users, Calendar } from 'lucide-react';
-import axios from 'axios';
+import api from '../config/axios';
 import toast from 'react-hot-toast';
 
 const FormResponses = () => {
@@ -20,9 +20,9 @@ const FormResponses = () => {
     try {
       setLoading(true);
       const [formResponse, responsesResponse, statsResponse] = await Promise.all([
-        axios.get(`/api/forms/${id}`),
-        axios.get(`/api/responses/form/${id}`),
-        axios.get(`/api/responses/stats/${id}`)
+        api.get(`/api/forms/${id}`),
+        api.get(`/api/responses/form/${id}`),
+        api.get(`/api/responses/stats/${id}`)
       ]);
 
       setForm(formResponse.data);
