@@ -33,8 +33,8 @@ FRONTEND_URL = (leave empty for now)
 
 ### Service Settings:
 ```
-Name: custom-form-builder-backend
-Repository: Muzammilk3/FROM
+Name:   custom-form-builder-backend
+Repository: Muzammilk3/FORM
 Branch: main
 Root Directory: (leave empty)
 Runtime: Node
