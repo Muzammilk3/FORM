@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const path = require('path');
+const fs = require('fs');
 const multer = require('multer');
 require('dotenv').config();
 
@@ -12,7 +13,7 @@ const PORT = process.env.PORT || 5000;
 const corsOptions = {
   origin: process.env.NODE_ENV === 'production' 
     ? [
-        'https://your-frontend-domain.vercel.app', // Replace with your actual Vercel domain
+        process.env.FRONTEND_URL || 'https://your-frontend-domain.vercel.app', // Will be set via environment variable
         'https://your-custom-domain.com' // Replace with your custom domain if any
       ]
     : ['http://localhost:3000', 'http://127.0.0.1:3000'],
@@ -63,7 +64,8 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-if (process.env.NODE_ENV === 'production') {
+// Only serve static files if client/build exists (for local development)
+if (process.env.NODE_ENV === 'production' && fs.existsSync(path.join(__dirname, 'client/build'))) {
   app.use(express.static(path.join(__dirname, 'client/build')));
   
   app.get('*', (req, res) => {
