@@ -26,20 +26,25 @@ app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 
 const mongoUri = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/form-builder';
 
-mongoose
-  .connect(mongoUri, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    serverSelectionTimeoutMS: 5000,
-    socketTimeoutMS: 45000,
-  })
-  .then(() => {
-    console.log('Connected to MongoDB Atlas');
-  })
-  .catch((err) => {
-    console.error('MongoDB connection error:', err.message);
-    console.log('Server will start without database connection. Some features may not work.');
-  });
+// Only try to connect if MONGODB_URI is provided
+if (process.env.MONGODB_URI) {
+  mongoose
+    .connect(mongoUri, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      serverSelectionTimeoutMS: 10000,
+      socketTimeoutMS: 45000,
+    })
+    .then(() => {
+      console.log('Connected to MongoDB Atlas');
+    })
+    .catch((err) => {
+      console.error('MongoDB connection error:', err.message);
+      console.log('Server will start without database connection. Some features may not work.');
+    });
+} else {
+  console.log('No MONGODB_URI provided, starting without database connection');
+}
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -66,21 +71,20 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-// Only serve static files if client/build exists (for local development)
+// Only serve API endpoints in production (frontend will be on Vercel)
 if (process.env.NODE_ENV === 'production') {
-  const buildPath = path.join(__dirname, 'client/build');
-  if (fs.existsSync(buildPath)) {
-    app.use(express.static(buildPath));
-    
-    app.get('*', (req, res) => {
-      res.sendFile(path.join(buildPath, 'index.html'));
+  app.get('/', (req, res) => {
+    res.json({ 
+      message: 'Form Builder API is running',
+      status: 'OK',
+      endpoints: {
+        health: '/api/health',
+        forms: '/api/forms',
+        responses: '/api/responses',
+        upload: '/api/upload'
+      }
     });
-  } else {
-    // If no build folder, just serve API
-    app.get('/', (req, res) => {
-      res.json({ message: 'Form Builder API is running' });
-    });
-  }
+  });
 }
 
 app.listen(PORT, () => {
