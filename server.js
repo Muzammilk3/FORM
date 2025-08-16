@@ -30,6 +30,8 @@ mongoose
   .connect(mongoUri, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
+    serverSelectionTimeoutMS: 5000,
+    socketTimeoutMS: 45000,
   })
   .then(() => {
     console.log('Connected to MongoDB Atlas');
@@ -65,12 +67,20 @@ app.get('/api/health', (req, res) => {
 });
 
 // Only serve static files if client/build exists (for local development)
-if (process.env.NODE_ENV === 'production' && fs.existsSync(path.join(__dirname, 'client/build'))) {
-  app.use(express.static(path.join(__dirname, 'client/build')));
-  
-  app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
-  });
+if (process.env.NODE_ENV === 'production') {
+  const buildPath = path.join(__dirname, 'client/build');
+  if (fs.existsSync(buildPath)) {
+    app.use(express.static(buildPath));
+    
+    app.get('*', (req, res) => {
+      res.sendFile(path.join(buildPath, 'index.html'));
+    });
+  } else {
+    // If no build folder, just serve API
+    app.get('/', (req, res) => {
+      res.json({ message: 'Form Builder API is running' });
+    });
+  }
 }
 
 app.listen(PORT, () => {

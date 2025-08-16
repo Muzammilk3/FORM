@@ -8,7 +8,17 @@
 3. Create a database user with read/write permissions
 4. Get your connection string (it looks like: `mongodb+srv://username:password@cluster.mongodb.net/database`)
 
-### 1.2 Deploy on Render
+### 1.2 IMPORTANT: Whitelist IP Addresses in MongoDB Atlas
+1. Go to [MongoDB Atlas](https://cloud.mongodb.com/)
+2. Click on your cluster
+3. Click "Network Access" in the left sidebar
+4. Click "Add IP Address"
+5. Click "Allow Access from Anywhere" (0.0.0.0/0)
+6. Click "Confirm"
+
+**This is crucial - without this, your backend can't connect to MongoDB!**
+
+### 1.3 Deploy on Render
 1. Go to [Render Dashboard](https://dashboard.render.com/)
 2. Click "New +" → "Web Service"
 3. Connect your GitHub repository
@@ -19,13 +29,14 @@
    - **Start Command:** `npm start`
    - **Root Directory:** Leave empty (root of repo)
 
-### 1.3 Set Environment Variables in Render
+### 1.4 Set Environment Variables in Render
 Add these environment variables in Render dashboard:
 - `NODE_ENV`: `production`
 - `PORT`: `10000`
 - `MONGODB_URI`: Your MongoDB connection string
+- `FRONTEND_URL`: Leave empty for now
 
-### 1.4 Deploy Backend
+### 1.5 Deploy Backend
 1. Click "Create Web Service"
 2. Wait for deployment to complete
 3. Note your backend URL (e.g., `https://your-app-name.onrender.com`)
@@ -67,7 +78,7 @@ Once you have your Vercel frontend URL, update the CORS configuration in `server
 const corsOptions = {
   origin: process.env.NODE_ENV === 'production' 
     ? [
-        'https://your-app-name.vercel.app', // Replace with your actual Vercel domain
+        process.env.FRONTEND_URL || 'https://your-frontend-domain.vercel.app', // Will be set via environment variable
         'https://your-custom-domain.com' // Replace with your custom domain if any
       ]
     : ['http://localhost:3000', 'http://127.0.0.1:3000'],
@@ -103,6 +114,7 @@ const corsOptions = {
 2. **MongoDB Connection Issues:**
    - Verify your MongoDB connection string
    - Check if your IP is whitelisted in MongoDB Atlas
+   - **CRITICAL:** Make sure you've whitelisted 0.0.0.0/0 in MongoDB Atlas Network Access
 
 3. **Build Failures:**
    - Check the build logs in Vercel
