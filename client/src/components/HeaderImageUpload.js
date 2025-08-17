@@ -9,6 +9,18 @@ const HeaderImageUpload = ({ currentImage, onImageUpdate }) => {
   const handleImageUpload = async (file) => {
     if (!file) return;
 
+    // Validate file size (5MB limit)
+    if (file.size > 5 * 1024 * 1024) {
+      toast.error('File size must be less than 5MB');
+      return;
+    }
+
+    // Validate file type
+    if (!file.type.startsWith('image/')) {
+      toast.error('Only image files are allowed');
+      return;
+    }
+
     const formData = new FormData();
     formData.append('image', file);
 
@@ -19,11 +31,17 @@ const HeaderImageUpload = ({ currentImage, onImageUpdate }) => {
           'Content-Type': 'multipart/form-data',
         },
       });
-      onImageUpdate(response.data.imageUrl);
-      toast.success('Header image uploaded successfully');
+      
+      if (response.data && response.data.imageUrl) {
+        onImageUpdate(response.data.imageUrl);
+        toast.success('Header image uploaded successfully');
+      } else {
+        throw new Error('Invalid response format');
+      }
     } catch (error) {
-      toast.error('Failed to upload header image');
       console.error('Error uploading header image:', error);
+      const errorMessage = error.response?.data?.message || 'Failed to upload header image';
+      toast.error(errorMessage);
     } finally {
       setUploading(false);
     }

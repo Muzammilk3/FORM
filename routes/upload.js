@@ -38,6 +38,10 @@ const upload = multer({
 router.post('/', upload.single('image'), (req, res) => {
   try {
     if (!req.file) {
+      return res.status(400).json({ 
+        success: false, 
+        message: 'No image file provided' 
+      });
       return res.status(400).json({ message: 'No file uploaded' });
     }
     
