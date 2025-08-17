@@ -26,7 +26,10 @@ const questionSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  image: String,
+  image: {
+    type: String,
+    maxLength: 5242880 // 5MB limit for base64 string
+  },
   categories: [String],
   items: [{
     text: String,

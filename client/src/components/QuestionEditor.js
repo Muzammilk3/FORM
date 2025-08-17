@@ -14,18 +14,37 @@ const QuestionEditor = ({ question, index, onUpdate, onDelete }) => {
   const handleImageUpload = async (file) => {
     if (!file) return;
 
-    const formData = new FormData();
-    formData.append('image', file);
-
     try {
       setUploading(true);
-      const response = await api.post('/api/upload', formData);
-      updateQuestion({ image: response.data.imageUrl });
-      toast.success('Image uploaded successfully');
+      
+      // Convert file to base64
+      const reader = new FileReader();
+      
+      reader.onload = async () => {
+        try {
+          const base64String = reader.result;
+          console.log('Sending base64 string:', base64String.slice(0, 50) + '...'); // Debug log
+          const response = await api.post('/api/upload', { image: base64String });
+          updateQuestion({ image: response.data.imageUrl });
+          toast.success('Image uploaded successfully');
+        } catch (error) {
+          toast.error('Failed to upload image');
+          console.error('Error uploading image:', error);
+        } finally {
+          setUploading(false);
+        }
+      };
+      
+      reader.onerror = (error) => {
+        console.error('Error reading file:', error);
+        toast.error('Failed to process image');
+        setUploading(false);
+      };
+      
+      reader.readAsDataURL(file);
     } catch (error) {
-      toast.error('Failed to upload image');
-      console.error('Error uploading image:', error);
-    } finally {
+      toast.error('Failed to process image');
+      console.error('Error processing image:', error);
       setUploading(false);
     }
   };

@@ -1,5 +1,5 @@
 
-rm -r routes/upload.js uploads/import React, { useState } from 'react';
+import React, { useState } from 'react';
 import { Upload, X, Image as ImageIcon } from 'lucide-react';
 import api from '../config/axios';
 import toast from 'react-hot-toast';
@@ -22,28 +22,28 @@ const HeaderImageUpload = ({ currentImage, onImageUpdate }) => {
       return;
     }
 
-    const formData = new FormData();
-    formData.append('image', file);
-
     try {
       setUploading(true);
-      const response = await api.post('/api/upload', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
       
-      if (response.data && response.data.imageUrl) {
-        onImageUpdate(response.data.imageUrl);
-        toast.success('Header image uploaded successfully');
-      } else {
-        throw new Error('Invalid response format');
-      }
+      // Convert file to base64
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      
+      reader.onload = () => {
+        const base64Image = reader.result;
+        onImageUpdate(base64Image);
+        toast.success('Image added successfully');
+        setUploading(false);
+      };
+
+      reader.onerror = (error) => {
+        console.error('Error reading file:', error);
+        toast.error('Failed to process image');
+        setUploading(false);
+      };
     } catch (error) {
-      console.error('Error uploading header image:', error);
-      const errorMessage = error.response?.data?.message || 'Failed to upload header image';
-      toast.error(errorMessage);
-    } finally {
+      console.error('Error processing image:', error);
+      toast.error('Failed to process image');
       setUploading(false);
     }
   };

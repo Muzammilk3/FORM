@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const path = require('path');
 require('dotenv').config();
 
 const app = express();
@@ -15,17 +16,17 @@ const corsOptions = {
       ]
     : ['http://localhost:3000', 'http://127.0.0.1:3000'],
   credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS']
 };
 
 app.use(cors(corsOptions));
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: true, limit: '50mb' }));
-  fs.mkdirSync(uploadsDir, { recursive: true });
-}
 
-// Serve uploaded files
-app.use('/uploads', express.static(uploadsDir));
+// Register routes
+app.use('/api/forms', require('./routes/forms'));
+app.use('/api/responses', require('./routes/responses'));
+app.use('/api/upload', require('./routes/upload'));
 
 // Log all requests in development
 if (process.env.NODE_ENV !== 'production') {
@@ -57,23 +58,6 @@ if (process.env.MONGODB_URI) {
   console.log('No MONGODB_URI provided, starting without database connection');
 }
 
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, 'uploads/');
-  },
-  filename: function (req, file, cb) {
-    cb(null, Date.now() + '-' + file.originalname);
-  }
-});
-
-const upload = multer({ storage: storage });
-
-app.use('/api/forms', require('./routes/forms'));
-app.use('/api/responses', require('./routes/responses'));
-app.use('/api/upload', require('./routes/upload'));
-
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-
 app.get('/api/health', (req, res) => {
   res.json({ 
     status: 'OK', 
@@ -91,8 +75,7 @@ if (process.env.NODE_ENV === 'production') {
       endpoints: {
         health: '/api/health',
         forms: '/api/forms',
-        responses: '/api/responses',
-        upload: '/api/upload'
+        responses: '/api/responses'
       }
     });
   });
