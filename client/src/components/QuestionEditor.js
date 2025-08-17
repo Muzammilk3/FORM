@@ -113,99 +113,163 @@ const QuestionEditor = ({ question, index, onUpdate, onDelete }) => {
         <label className="block text-sm font-medium text-gray-700 mb-2">
           Categories
         </label>
-        <div className="space-y-2">
-          {question.categories.map((category, catIndex) => (
-            <div key={catIndex} className="flex items-center space-x-2">
-              <input
-                type="text"
-                value={category}
-                onChange={(e) => {
-                  const newCategories = [...question.categories];
-                  newCategories[catIndex] = e.target.value;
-                  updateQuestion({ categories: newCategories });
-                }}
-                className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-                placeholder="Category name"
-              />
-              <button
-                onClick={() => {
-                  const newCategories = question.categories.filter((_, i) => i !== catIndex);
-                  updateQuestion({ categories: newCategories });
-                }}
-                className="text-red-600 hover:text-red-800 p-1"
+        <DragDropContext
+          onDragEnd={(result) => {
+            if (!result.destination) return;
+            const newCategories = Array.from(question.categories);
+            const [removed] = newCategories.splice(result.source.index, 1);
+            newCategories.splice(result.destination.index, 0, removed);
+            updateQuestion({ categories: newCategories });
+          }}
+        >
+          <Droppable droppableId="categories">
+            {(provided) => (
+              <div
+                {...provided.droppableProps}
+                ref={provided.innerRef}
+                className="space-y-2"
               >
-                <Trash2 size={16} />
-              </button>
-            </div>
-          ))}
-          <button
-            onClick={() => {
-              const newCategories = [...question.categories, `Category ${question.categories.length + 1}`];
-              updateQuestion({ categories: newCategories });
-            }}
-            className="text-primary-600 hover:text-primary-700 text-sm font-medium flex items-center space-x-1"
-          >
-            <Plus size={16} />
-            <span>Add Category</span>
-          </button>
-        </div>
+                {question.categories.map((category, catIndex) => (
+                  <Draggable
+                    key={catIndex.toString()}
+                    draggableId={`category-${catIndex}`}
+                    index={catIndex}
+                  >
+                    {(provided) => (
+                      <div
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                        className="flex items-center space-x-2 bg-white p-2 rounded-lg border border-gray-200"
+                      >
+                        <input
+                          type="text"
+                          value={category}
+                          onChange={(e) => {
+                            const newCategories = [...question.categories];
+                            newCategories[catIndex] = e.target.value;
+                            updateQuestion({ categories: newCategories });
+                          }}
+                          className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                          placeholder="Category name"
+                        />
+                        <button
+                          onClick={() => {
+                            const newCategories = question.categories.filter((_, i) => i !== catIndex);
+                            updateQuestion({ categories: newCategories });
+                          }}
+                          className="text-red-600 hover:text-red-800 p-1"
+                        >
+                          <Trash2 size={16} />
+                        </button>
+                      </div>
+                    )}
+                  </Draggable>
+                ))}
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
+        </DragDropContext>
+        <button
+          onClick={() => {
+            const newCategories = [...question.categories, `Category ${question.categories.length + 1}`];
+            updateQuestion({ categories: newCategories });
+          }}
+          className="mt-2 text-primary-600 hover:text-primary-700 text-sm font-medium flex items-center space-x-1"
+        >
+          <Plus size={16} />
+          <span>Add Category</span>
+        </button>
       </div>
 
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-2">
           Items to Categorize
         </label>
-        <div className="space-y-2">
-          {question.items.map((item, itemIndex) => (
-            <div key={itemIndex} className="flex items-center space-x-2">
-              <input
-                type="text"
-                value={item.text}
-                onChange={(e) => {
-                  const newItems = [...question.items];
-                  newItems[itemIndex] = { ...newItems[itemIndex], text: e.target.value };
-                  updateQuestion({ items: newItems });
-                }}
-                className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-                placeholder="Item text"
-              />
-              <select
-                value={item.correctCategory}
-                onChange={(e) => {
-                  const newItems = [...question.items];
-                  newItems[itemIndex] = { ...newItems[itemIndex], correctCategory: e.target.value };
-                  updateQuestion({ items: newItems });
-                }}
-                className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+        <DragDropContext
+          onDragEnd={(result) => {
+            if (!result.destination) return;
+            const newItems = Array.from(question.items);
+            const [removed] = newItems.splice(result.source.index, 1);
+            newItems.splice(result.destination.index, 0, removed);
+            updateQuestion({ items: newItems });
+          }}
+        >
+          <Droppable droppableId="items">
+            {(provided) => (
+              <div
+                {...provided.droppableProps}
+                ref={provided.innerRef}
+                className="space-y-2"
               >
-                {question.categories.map((category) => (
-                  <option key={category} value={category}>
-                    {category}
-                  </option>
+                {question.items.map((item, itemIndex) => (
+                  <Draggable
+                    key={itemIndex.toString()}
+                    draggableId={`item-${itemIndex}`}
+                    index={itemIndex}
+                  >
+                    {(provided) => (
+                      <div
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                        className="flex items-center space-x-2 bg-white p-2 rounded-lg border border-gray-200"
+                      >
+                        <input
+                          type="text"
+                          value={item.text}
+                          onChange={(e) => {
+                            const newItems = [...question.items];
+                            newItems[itemIndex] = { ...newItems[itemIndex], text: e.target.value };
+                            updateQuestion({ items: newItems });
+                          }}
+                          className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                          placeholder="Item text"
+                        />
+                        <select
+                          value={item.correctCategory}
+                          onChange={(e) => {
+                            const newItems = [...question.items];
+                            newItems[itemIndex] = { ...newItems[itemIndex], correctCategory: e.target.value };
+                            updateQuestion({ items: newItems });
+                          }}
+                          className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                        >
+                          {question.categories.map((category) => (
+                            <option key={category} value={category}>
+                              {category}
+                            </option>
+                          ))}
+                        </select>
+                        <button
+                          onClick={() => {
+                            const newItems = question.items.filter((_, i) => i !== itemIndex);
+                            updateQuestion({ items: newItems });
+                          }}
+                          className="text-red-600 hover:text-red-800 p-1"
+                        >
+                          <Trash2 size={16} />
+                        </button>
+                      </div>
+                    )}
+                  </Draggable>
                 ))}
-              </select>
-              <button
-                onClick={() => {
-                  const newItems = question.items.filter((_, i) => i !== itemIndex);
-                  updateQuestion({ items: newItems });
-                }}
-                className="text-red-600 hover:text-red-800 p-1"
-              >
-                <Trash2 size={16} />
-              </button>
-            </div>
-          ))}
-          <button
-            onClick={() => {
-              const newItems = [...question.items, { text: `Item ${question.items.length + 1}`, correctCategory: question.categories[0] || '' }];
-              updateQuestion({ items: newItems });
-            }}
-            className="text-primary-600 hover:text-primary-700 text-sm font-medium flex items-center space-x-1"
-          >
-            <Plus size={16} />
-            <span>Add Item</span>
-          </button>
-        </div>
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
+        </DragDropContext>
+        <button
+          onClick={() => {
+            const newItems = [...question.items, { text: `Item ${question.items.length + 1}`, correctCategory: question.categories[0] || '' }];
+            updateQuestion({ items: newItems });
+          }}
+          className="mt-2 text-primary-600 hover:text-primary-700 text-sm font-medium flex items-center space-x-1"
+        >
+          <Plus size={16} />
+          <span>Add Item</span>
+        </button>
       </div>
     </div>
   );

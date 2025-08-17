@@ -317,7 +317,7 @@ const FormBuilder = () => {
               <span className="sm:hidden">Cloze</span>
             </button>
             <button
-              onClick={() => addQuestion('comprehension')}
+              onClick={addComprehensionQuestion}
               className="bg-purple-600 hover:bg-purple-700 text-white px-3 sm:px-4 py-2 rounded-md text-xs sm:text-sm font-medium transition-colors"
             >
               <Plus size={14} className="inline mr-1 sm:w-4 sm:h-4" />
@@ -347,7 +347,7 @@ const FormBuilder = () => {
                 Add Cloze Question
               </button>
               <button
-                onClick={() => addQuestion('comprehension')}
+                onClick={addComprehensionQuestion}
                 className="bg-purple-600 hover:bg-purple-700 text-white px-3 sm:px-4 py-2 rounded-md text-xs sm:text-sm font-medium transition-colors"
               >
                 Add Comprehension Question
