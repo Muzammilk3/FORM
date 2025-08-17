@@ -38,6 +38,59 @@ const FormBuilder = () => {
     }
   };
 
+  const scrollToNewQuestion = () => {
+    // Wait for state update and DOM render
+    setTimeout(() => {
+      const questions = document.querySelectorAll('.question-card');
+      const lastQuestion = questions[questions.length - 1];
+      if (lastQuestion) {
+        lastQuestion.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 100);
+  };
+
+  const addCategorizeQuestion = () => {
+    const newQuestion = {
+      type: 'categorize',
+      title: '',
+      categories: [],
+      items: []
+    };
+    setForm(prev => ({
+      ...prev,
+      questions: [...prev.questions, newQuestion]
+    }));
+    scrollToNewQuestion();
+  };
+
+  const addClozeQuestion = () => {
+    const newQuestion = {
+      type: 'cloze',
+      title: '',
+      text: '',
+      blanks: []
+    };
+    setForm(prev => ({
+      ...prev,
+      questions: [...prev.questions, newQuestion]
+    }));
+    scrollToNewQuestion();
+  };
+
+  const addComprehensionQuestion = () => {
+    const newQuestion = {
+      type: 'comprehension',
+      title: '',
+      paragraph: '',
+      questions: []
+    };
+    setForm(prev => ({
+      ...prev,
+      questions: [...prev.questions, newQuestion]
+    }));
+    scrollToNewQuestion();
+  };
+
   const handleSave = async () => {
     if (!form.title.trim()) {
       toast.error('Please enter a form title');
@@ -245,19 +298,18 @@ const FormBuilder = () => {
       </div>
 
       <div className="bg-white rounded-lg shadow-sm border p-4 sm:p-6">
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
+        <div className="question-card scroll-mt-24 flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
           <h2 className="text-lg sm:text-xl font-semibold text-gray-900">Questions</h2>
           <div className="flex flex-wrap gap-2">
             <button
-              onClick={() => addQuestion('categorize')}
+              onClick={addCategorizeQuestion}
               className="bg-green-600 hover:bg-green-700 text-white px-3 sm:px-4 py-2 rounded-md text-xs sm:text-sm font-medium transition-colors"
             >
               <Plus size={14} className="inline mr-1 sm:w-4 sm:h-4" />
-              <span className="hidden sm:inline">Categorize</span>
-              <span className="sm:hidden">Cat</span>
+              Add Categorize Question
             </button>
             <button
-              onClick={() => addQuestion('cloze')}
+              onClick={addClozeQuestion}
               className="bg-blue-600 hover:bg-blue-700 text-white px-3 sm:px-4 py-2 rounded-md text-xs sm:text-sm font-medium transition-colors"
             >
               <Plus size={14} className="inline mr-1 sm:w-4 sm:h-4" />
@@ -269,8 +321,7 @@ const FormBuilder = () => {
               className="bg-purple-600 hover:bg-purple-700 text-white px-3 sm:px-4 py-2 rounded-md text-xs sm:text-sm font-medium transition-colors"
             >
               <Plus size={14} className="inline mr-1 sm:w-4 sm:h-4" />
-              <span className="hidden sm:inline">Comprehension</span>
-              <span className="sm:hidden">Comp</span>
+              Add Comprehension Question
             </button>
           </div>
         </div>
@@ -306,7 +357,7 @@ const FormBuilder = () => {
         ) : (
           <div className="space-y-6">
             {form.questions.map((question, index) => (
-              <div key={index} className="border border-gray-200 rounded-lg p-3 sm:p-4">
+              <div key={index} className="question-card border border-gray-200 rounded-lg p-3 sm:p-4">
                 <div className="flex flex-col sm:flex-row justify-between items-start mb-4 gap-2">
                   <div className="flex items-center space-x-2 sm:space-x-3">
                     <span className="px-2 sm:px-3 py-1 bg-gray-100 text-gray-700 text-xs sm:text-sm font-medium rounded-full">
