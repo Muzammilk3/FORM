@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+
+rm -r routes/upload.js uploads/import React, { useState } from 'react';
 import { Upload, X, Image as ImageIcon } from 'lucide-react';
 import api from '../config/axios';
 import toast from 'react-hot-toast';
@@ -26,20 +27,11 @@ const HeaderImageUpload = ({ currentImage, onImageUpdate }) => {
 
     try {
       setUploading(true);
-      console.log('Uploading file:', file); // Debug log
-      
       const response = await api.post('/api/upload', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
-        // Add timeout and debug logs
-        timeout: 30000,
-        onUploadProgress: (progressEvent) => {
-          console.log('Upload Progress:', Math.round((progressEvent.loaded * 100) / progressEvent.total));
-        },
       });
-      
-      console.log('Upload response:', response.data); // Debug log
       
       if (response.data && response.data.imageUrl) {
         onImageUpdate(response.data.imageUrl);
@@ -49,11 +41,6 @@ const HeaderImageUpload = ({ currentImage, onImageUpdate }) => {
       }
     } catch (error) {
       console.error('Error uploading header image:', error);
-      console.error('Error details:', {
-        response: error.response?.data,
-        status: error.response?.status,
-        headers: error.response?.headers
-      });
       const errorMessage = error.response?.data?.message || 'Failed to upload header image';
       toast.error(errorMessage);
     } finally {
