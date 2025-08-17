@@ -13,11 +13,12 @@ const PORT = process.env.PORT || 5000;
 const corsOptions = {
   origin: process.env.NODE_ENV === 'production' 
     ? [
-        process.env.FRONTEND_URL || 'https://your-frontend-domain.vercel.app', // Will be set via environment variable
-        'https://your-custom-domain.com' // Replace with your custom domain if any
+        process.env.FRONTEND_URL,
+        'https://form-red-psi.vercel.app'
       ]
     : ['http://localhost:3000', 'http://127.0.0.1:3000'],
-  credentials: true
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
 };
 
 app.use(cors(corsOptions));
