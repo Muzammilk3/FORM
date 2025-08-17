@@ -31,17 +31,53 @@ const upload = multer({
   storage: storage,
   fileFilter: fileFilter,
   limits: {
-    fileSize: 5 * 1024 * 1024
+    fileSize: 5 * 1024 * 1024 // 5MB limit
   }
-});
+}).single('image');
 
-router.post('/', upload.single('image'), (req, res) => {
-  try {
-    if (!req.file) {
-      return res.status(400).json({ 
-        success: false, 
-        message: 'No image file provided' 
+router.post('/', (req, res) => {
+  upload(req, res, function(err) {
+    if (err instanceof multer.MulterError) {
+      // A Multer error occurred when uploading
+      console.error('Multer error:', err);
+      return res.status(400).json({
+        success: false,
+        message: `Upload error: ${err.message}`
       });
+    } else if (err) {
+      // An unknown error occurred
+      console.error('Unknown upload error:', err);
+      return res.status(500).json({
+        success: false,
+        message: 'Error uploading file'
+      });
+    }
+    
+    // Check if file exists
+    if (!req.file) {
+      return res.status(400).json({
+        success: false,
+        message: 'No image file provided'
+      });
+    }
+
+    try {
+      // File uploaded successfully
+      const imageUrl = `/uploads/${req.file.filename}`;
+      return res.status(200).json({
+        success: true,
+        message: 'File uploaded successfully',
+        imageUrl: imageUrl
+      });
+    } catch (error) {
+      console.error('Error processing upload:', error);
+      return res.status(500).json({
+        success: false,
+        message: 'Error processing upload'
+      });
+    }
+  });
+});
       return res.status(400).json({ message: 'No file uploaded' });
     }
     
