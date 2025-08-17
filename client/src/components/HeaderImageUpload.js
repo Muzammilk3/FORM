@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Upload, X, Image as ImageIcon } from 'lucide-react';
-import axios from 'axios';
+import api from '../config/axios';
 import toast from 'react-hot-toast';
 
 const HeaderImageUpload = ({ currentImage, onImageUpdate }) => {
@@ -14,7 +14,11 @@ const HeaderImageUpload = ({ currentImage, onImageUpdate }) => {
 
     try {
       setUploading(true);
-      const response = await axios.post('/api/upload', formData);
+      const response = await api.post('/api/upload', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
       onImageUpdate(response.data.imageUrl);
       toast.success('Header image uploaded successfully');
     } catch (error) {
@@ -80,4 +84,4 @@ export default HeaderImageUpload;
 
 
 
-
+
